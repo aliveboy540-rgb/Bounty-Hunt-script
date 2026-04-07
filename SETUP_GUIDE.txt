@@ -1,0 +1,204 @@
+-- Advanced Setup Guide for Bounty Hunt Script
+
+[[
+INSTALLATION GUIDE
+==================
+
+1. BASIC SETUP
+   - Copy BountyHuntScript.lua to a LocalScript in StarterPlayer > StarterPlayerScripts
+   - The script will automatically run when the player joins the game
+
+2. CONFIGURATION
+   - Edit Config.lua to customize rewards, weapon names, and safe zones
+   - Update weapon names to match your exact game weapons
+   - Add your game's safe zone locations
+
+3. CUSTOMIZATION OPTIONS
+   - Bounty rewards per kill
+   - Search radius for finding targets
+   - Weapon equip speeds
+   - UI colors and sizes
+
+FEATURES EXPLAINED
+==================
+
+1. UI SYSTEM
+   - BountyFrame: Shows current bounty earned with orange border
+   - SkipButton: Red button to skip current target or teleport if in safe zone
+   - TargetLabel: Shows current target status and HP
+   
+   To customize UI:
+   - Edit color values in BountyHuntScript.lua (Color3.fromRGB values)
+   - Change UDim2 values for position and size
+   - Modify text labels and button text
+
+2. ENEMY TRACKING
+   - Automatically finds nearest player within SearchRadius
+   - Character attaches to enemy using Vector3 movement
+   - Updates in real-time using RunService.Heartbeat
+   - Shows target health in status label
+
+3. COMBAT SYSTEM
+   - Three weapon types: Melee, Sword/FruitSword, Gun
+   - Weapons equip from player backpack or character
+   - Attacks rotate between all three weapon types
+   - Combat speed controlled by CombatUpdateSpeed setting
+
+4. SAFE ZONE SYSTEM
+   - Checks if player is within safe zone radius
+   - Skip button in safe zone joins another server
+   - Uses Roblox API to find available servers
+   - Automatically teleports player to new server
+
+WEAPON CUSTOMIZATION
+====================
+
+To add custom weapons:
+
+1. Find your game's exact weapon names:
+   - Check StarterPlayer > StarterCharacterScripts
+   - Look in Backpack when you equip items
+   - Note the exact Tool names
+
+2. Update Config.lua Weapons section:
+   Weapons = {
+       Melee = "YourMeleeName",
+       Sword = "YourSwordName",
+       Gun = "YourGunName",
+   }
+
+3. For RemoteEvent-based weapons:
+   - Update the gunAttack() function
+   - Find the weapon's fire RemoteEvent
+   - Trigger it with targetPosition
+
+SAFE ZONE SETUP
+===============
+
+Add your game's safe zones:
+
+1. Get the position of each safe zone:
+   - Use a part to measure exact position
+   - Console: print(game.Workspace.YourPart.Position)
+
+2. Update Config.lua SafeZones:
+   SafeZones = {
+       {Position = Vector3.new(0, 50, 0), Radius = 50},
+       {Position = Vector3.new(100, 100, 100), Radius = 50},
+   }
+
+3. Radius determines safe zone size (in studs)
+
+BOUNTY REWARDS
+==============
+
+Customize bounty earning:
+
+1. Edit Rewards in Config.lua:
+   Rewards = {
+       KillReward = 500,          -- Basic kill
+       HeadshotBonus = 250,       -- Unused in current version
+       MultiKillBonus = 100,      -- Unused in current version
+   }
+
+2. Modify onTargetDied() function to adjust rewards
+3. Add condition checks for special kill types
+
+ADVANCED TIPS
+=============
+
+1. PERFORMANCE OPTIMIZATION
+   - Increase combat update speed (lower number = faster attacks)
+   - Reduce SearchRadius if too many targets found
+   - Add more specific target filters
+
+2. DEBUGGING
+   - Check Output console for error messages
+   - Use print() to trace script execution
+   - Monitor RunService connections for issues
+
+3. GAME-SPECIFIC TWEAKS
+   - Adjust movement speed based on game mechanics
+   - Update weapon attack values for your game
+   - Modify bounty amounts for economy balance
+
+4. MULTI-THREADING
+   - Script uses coroutines for weapon attacks
+   - Adjust wait() times for faster/slower combat
+   - Use RunService for precise timing
+
+COMMON ISSUES & FIXES
+=====================
+
+ISSUE: Script doesn't find targets
+FIX: 
+  - Increase SearchRadius in Config.lua
+  - Check other players are in game
+  - Verify player.Character exists
+
+ISSUE: Weapons not equipping
+FIX:
+  - Update weapon names in Config.lua
+  - Check weapon exists in backpack
+  - Verify character has access to weapons
+
+ISSUE: Teleport fails
+FIX:
+  - Check internet connection
+  - Verify PlaceId is correct
+  - Ensure game allows teleporting
+
+ISSUE: UI not showing
+FIX:
+  - Verify script runs in LocalScript
+  - Check PlayerGui exists
+  - Inspect for errors in Output console
+
+EXTENDING THE SCRIPT
+====================
+
+To add your own features:
+
+1. ADD NEW WEAPONS:
+   - Create new attack function
+   - Add weapon check and equip
+   - Call from fightEnemy() loop
+
+2. ADD BOUNTY MULTIPLIERS:
+   - Check player level/rank
+   - Apply multiplier to bountyEarned
+   - Update updateBountyDisplay()
+
+3. ADD TEAM SYSTEM:
+   - Check player.Team before attacking
+   - Skip enemies on same team
+   - Award team bounties
+
+4. ADD STATS TRACKING:
+   - Track kills, deaths, accuracy
+   - Create stats display UI
+   - Save stats to DataStore
+
+5. ADD COMBO SYSTEM:
+   - Track consecutive kills
+   - Increase bounty per combo
+   - Reset combo on death
+
+SUPPORT & CONTACT
+=================
+
+Having issues? Contact: mr_alive.bg on Discord
+For updates and bug fixes, check GitHub repository
+
+LICENSE
+=======
+
+This script is provided as-is for use in Roblox games.
+Modify and distribute as needed for your game.
+]]
+
+return {
+    Version = "1.0",
+    Author = "mr_alive.bg",
+    LastUpdated = "2026-04-07",
+}
