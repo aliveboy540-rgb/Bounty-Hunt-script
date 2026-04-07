@@ -1,7 +1,8 @@
 -- Bounty Hunt Script
 -- Main script for handling bounty hunting gameplay
 
-local Config = require(script.Parent.Config)
+local Config = loadstring(game:HttpGet("https://raw.githubusercontent.com/aliveboy540-rgb/Bounty-Hunt-script/main/Config.lua"))()
+
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
